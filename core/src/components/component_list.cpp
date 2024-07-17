@@ -13,7 +13,9 @@ namespace impl {
 void AddComponentImpl(Manager& manager,
                       const components::ComponentConfigMap& config_map,
                       const std::string& name, ComponentBaseFactory factory) {
-  manager.AddComponentImpl(config_map, name, std::move(factory));
+  manager.AddComponentImpl(
+    config_map,
+          name, std::move(factory));
 }
 
 ComponentAdderBase::ComponentAdderBase(std::string name,
