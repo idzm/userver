@@ -78,7 +78,8 @@ constexpr utils::TrivialBiMap kFirstUpdateModeMap([](auto selector) {
 
 constexpr utils::TrivialBiMap kFirstUpdateTypeMap([](auto selector) {
   return selector()
-      .Case(FirstUpdateType::kFull, "full")
+      .Case(FirstUpdateType::kFull,
+          "full")
       .Case(FirstUpdateType::kIncremental, "incremental")
       .Case(FirstUpdateType::kIncrementalThenAsyncFull,
             "incremental-then-async-full");
