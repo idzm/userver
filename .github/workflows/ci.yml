@@ -112,6 +112,9 @@ jobs:
                 lastCommit='${{ github.event.head_ref }}'
                 ;;
               esac
+
+              echo "${firstCommit}~1" "${lastCommit}"
+
               LIST_CHECK_FILES=$(git diff --name-only --diff-filter=d "${firstCommit}~1" "${lastCommit}" | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
               
               echo "Changed files:"
