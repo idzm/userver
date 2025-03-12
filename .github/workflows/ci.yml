@@ -104,7 +104,9 @@ jobs:
               fetch-depth: 0
 
           - name: Check CMake files format
-            run: |
+            run: |            
+              echo github.event_name='${{ github.event_name }}'
+
               case '${{ github.event_name }}' in
               push)
                 firstCommit='${{ github.event.commits[0].id }}'
@@ -116,7 +118,7 @@ jobs:
                 ;;
               esac
 
-              echo "${firstCommit}~1" "${lastCommit}"
+              echo commits="${firstCommit}~1" "${lastCommit}"
 
               LIST_CHECK_FILES=$(git diff --name-only --diff-filter=d "${firstCommit}~1" "${lastCommit}" | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
               
