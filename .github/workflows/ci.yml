@@ -102,10 +102,10 @@ jobs:
 
           - name: Check CMake files format
             run: |
-              [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/${GITHUB_BASE_REF}
-              echo "${BRANCH_VAR}"
-              echo "$(git diff --name-only ${BRANCH_VAR})"
-              LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
+              git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+              LIST_CHECK_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.head_ref }} | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
+              echo "Changed files:"
+              echo "$LIST_CHECK_FILES"
               if [[ -n ${LIST_CHECK_FILES} ]]
               then
                 pip install cmake-format                  
