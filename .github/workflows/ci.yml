@@ -189,6 +189,17 @@ jobs:
             run: |
                 sudo apt install -y gdb python3-pytest
 
+          - name: Install cmake-format
+            run: |
+                pip install cmake-format
+
+          - name: Check CMake files format
+            run: |
+                LIST_CHECK_FILES=$(git diff --name-only --diff-filter=d HEAD~1 | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
+                for FILE in $LIST_CHECK_FILES; do
+                  cmake-format --check $FILE
+                done
+
           - name: Run cmake
             run: |
                 cmake -S . -B build_debug ${{matrix.cmake-flags}}
