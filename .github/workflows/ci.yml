@@ -101,27 +101,12 @@ jobs:
           - name: Checkout repository
             uses: actions/checkout@v4
             with:
-              fetch-depth: 0
+              fetch-depth: 2
 
           - name: Check CMake files format
-            run: |            
-              echo github.event_name='${{ github.event_name }}'
-
-              case '${{ github.event_name }}' in
-              push)
-                firstCommit='${{ github.event.commits[0].id }}'
-                lastCommit='${{ github.event.commits[-1].id }}'
-                ;;
-              pull_request)
-                firstCommit='${{ github.event.base_ref }}'
-                lastCommit='${{ github.event.head_ref }}'
-                ;;
-              esac
-
-              echo commits="${firstCommit}~1" "${lastCommit}"
-
-              LIST_CHECK_FILES=$(git diff --name-only --diff-filter=d "${firstCommit}~1" "${lastCommit}" | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
-              
+            run: |    
+              LIST_CHECK_FILES=$(git diff --name-only --diff-filter=d HEAD^1 HEAD | grep -E 'CMakeLists.txt$' | tr '\n' ' ')
+             
               echo "Changed files:"
               echo "$LIST_CHECK_FILES"
               if [[ -n ${LIST_CHECK_FILES} ]]
