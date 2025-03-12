@@ -18,6 +18,8 @@ namespace dump::impl {
 namespace {
 constexpr std::size_t kChunkSize = 1024;
 constexpr std::size_t kDelimitedPrefixSize = 10;
+
+
 }  // namespace
 
 void WriteProtoMessageToDump(Writer& writer, const google::protobuf::MessageLite& message) {
