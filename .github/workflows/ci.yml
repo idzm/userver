@@ -113,7 +113,6 @@ jobs:
                 if [[ -n ${LIST_CHECK_FILES} ]]
                 then
                   pip install cmake-format
-                  DIFF_OUTPUT=""
                   for FILE in $LIST_CHECK_FILES; do
                     cmake-format --check $FILE &> output.txt || true
                     if grep -q "ERROR" output.txt; then
@@ -125,6 +124,9 @@ jobs:
                       echo "No formatting issues in $FILE."
                     fi
                   done
+                  if [[ -n ${DIFF_OUTPUT} ]]; then
+                    DIFF_OUTPUT="## ❌ Check with [cmake-format](https:\/\/github.com\/cheshirekow\/cmake_format) failed\n\n$DIFF_OUTPUT"
+                  fi
                   echo -e "$DIFF_OUTPUT" > diff_output.txt
                 else
                   echo "Nothing to check with cmake-format"
