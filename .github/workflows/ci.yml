@@ -115,8 +115,8 @@ jobs:
                   pip install cmake-format
                   DIFF_OUTPUT=""
                   for FILE in $LIST_CHECK_FILES; do
-                    FORMAT_RESULT=$(cmake-format --check $FILE || true)
-                    if [[ -n "$FORMAT_RESULT" ]]; then
+                    cmake-format --check $FILE
+                    if [[ $? -ne 0 ]]; then
                       echo "Formatting issues found in $FILE. Running cmake-format to fix."
                       cmake-format -i $FILE
                       DIFF=$(git diff $FILE)
