@@ -136,13 +136,15 @@ jobs:
             env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             run: |
-                DIFF_OUTPUT=$(cat diff_output.txt)
-                if [ -n "$DIFF_OUTPUT" ]; then
-                  echo "Creating pull request comment with diff output..."
-                  echo "$DIFF_OUTPUT" > comment.md
-                  gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
-                  echo "Failing the workflow due to formatting issues."
-                  exit 1
+                if [ -f diff_output.txt ]; then
+                  DIFF_OUTPUT=$(cat diff_output.txt)
+                  if [ -n "$DIFF_OUTPUT" ]; then
+                    echo "Creating pull request comment with diff output..."
+                    echo "$DIFF_OUTPUT" > comment.md
+                    gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
+                    echo "Failing the workflow due to formatting issues."
+                    exit 1
+                  fi
                 fi
 
           - name: Restore cached directories
